@@ -3,7 +3,7 @@ var map, startPointLayer, endPointLayer, lineLayer, control, gpxLayer, baseurl;
 $(document).ready(function() {
     
     // A CONFIGURER !!!
-    baseurl = "http://ogowm/webmaptuto/webpgroutingCor/";
+    baseurl = "http://ogovm/ProjetOGO/webpgroutingCor/";
     
     // initialisation de la Map en SRS EPSG:900913
     map = new OpenLayers.Map({
