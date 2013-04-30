@@ -1,0 +1,54 @@
+
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>GeoAdminMobile: Examples of the Map-class </title>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="stylesheet" href="./sencha-touch.css" type="text/css">
+    <link rel="stylesheet" href="./style.mobile.css" type="text/css">
+    <link rel="stylesheet" href="./style.css" type="text/css">
+    <link rel="stylesheet" href="./gxm.css" type="text/css">
+
+    <script src="http://mobile.api.geo.admin.ch/loader.js"></script>
+    <script type="text/javascript">
+    Ext.require('GeoAdminMobile.Map');
+    </script>
+
+    <script type="text/javascript" >
+        var m;
+        Ext.setup({
+            viewport: {
+                autoMaximize: true
+            },
+            onReady: function(){
+                m = Ext.create('GeoAdminMobile.Map', {
+                    handedness: 'right',
+                    listeners: {
+                        // maptap: function(){
+                        //     alert('MAPTAP!');
+                        // },
+                        // maphold: function(){
+                        //     alert('MAPHOLD!');
+                        // }
+                    }
+                });
+
+                Ext.Viewport.add( m );
+
+                //var parks = GeoAdmin.layers.buildLayerByName("ch.bafu.schutzgebiete-paerke_nationaler_bedeutung", {isBaseLayer: false});
+                //var hydro = GeoAdmin.layers.buildLayerByName("ch.swisstopo.vec200-hydrography", {isBaseLayer: false});
+                //m.getMap().addLayers([parks, hydro]);
+                //m.getMap().addLayers([parks]);
+            }
+        });
+        </script>
+<body>
+
+
+</body>
+
+</html>
