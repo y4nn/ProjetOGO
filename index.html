@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--
+/**
+ * Copyright (c) 2012, swisstopo
+ * 
+ * Published under the "Simplified BSD License", see file "license.txt" in the 
+ * GeoAdminMobile.ux folder for the full text.
+ */
+-->
+    <title>GeoAdminMobile: Examples of the Map-class </title>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="stylesheet" href="/lib/touch/resources/css/sencha-touch.css" type="text/css">
+    <link rel="stylesheet" href="/lib/openlayers/theme/default/style.mobile.css" type="text/css">
+    <link rel="stylesheet" href="/lib/openlayers/theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="/lib/gxm/resources/css/gxm.css" type="text/css">
+    <!-- <link rel="stylesheet" href="../../css/geoadminmobile.css" type="text/css">     -- WHAT?????? -- --> 
+    
+    <script type="text/javascript" src="lib/touch/sencha-touch-debug.js"></script>
+    <script type="text/javascript" src="lib/openlayers/lib/OpenLayers.js"></script>
+
+    <!-- Proj4JS -->
+    <script type="text/javascript" src="lib/proj4js/proj4js/lib/proj4js.js"></script>
+
+    <!-- This file loads all relevant files -->
+    <script type="text/javascript" src="lib/GXM.loader.js"></script>
+    <!--<script type="text/javascript" src="lib/Permalink.js"></script>-->
+
+    <!-- This file loads the translations -->
+    <script type="text/javascript" src="lib/openlayers/lib/OpenLayers/Lang/de.js"></script>
+    <!--<script type="text/javascript" src="../../i18n/de.js"></script>-->
+    <script type="text/javascript" src="lib/openlayers/lib/OpenLayers/Lang/fr.js"></script>
+    <!--<script type="text/javascript" src="../../i18n/fr.js"></script>-->
+    <script type="text/javascript" src="lib/openlayers/lib/OpenLayers/Lang/it.js"></script>
+    <!--<script type="text/javascript" src="../../i18n/it.js"></script>-->
+    <!--<script type="text/javascript" src="../../i18n/rm.js"></script>-->
+    <!--<script type="text/javascript" src="../../i18n/en.js"></script>-->
+
+    <!--<script type="text/javascript" src="lib/GeoAdminUxLayers/Layers/lib/AggregateLayer.js"></script>-->
+    <!--<script type="text/javascript" src="lib/GeoAdminUxLayers/Layers/lib/Layers.js"></script>-->
+    <!--<script type="text/javascript" src="lib/GeoAdminUxLayers/Layers/lib/VoidLayer.js"></script>-->
+    <!--<script type="text/javascript" src="../../Map/lib/ArgParser.js"></script>-->
+    <!--<script type="text/javascript" src="../../Map/lib/Attribution.js"></script>-->
+    <!--<script type="text/javascript" src="../../Map/lib/Permalink.js"></script>-->
+    <!--<script type="text/javascript" src="../../Map/lib/Handler.ClickHold.js"></script>-->
+    <!--<script type="text/javascript" src="../../Map/lib/Control.ClickHold.js"></script>-->
+
+    <script type="text/javascript">
+    Ext.require('GeoAdminMobile.Map');    
+    </script>
+
+    <script type="text/javascript" >
+        var m;
+        Ext.setup({
+            viewport: {
+                autoMaximize: true
+            },
+            onReady: function(){
+                m = Ext.create('GeoAdminMobile.Map', {
+                    handedness: 'right',
+                    listeners: {
+                        /* return false to cancel stuff
+                        beforemaptap: function(){
+                            return true;
+                        },
+                        
+                        beforemaphold: function(){
+                            return true;
+                        },
+                        */
+                        maptap: function(){
+                            console.log('MAPTAP!');
+                        },
+                        maphold: function(){
+                            console.log('MAPHOLD!');
+                        }
+                    }
+                });
+
+                Ext.Viewport.add( m );
+
+                var parks = GeoAdmin.layers.buildLayerByName("ch.bafu.schutzgebiete-paerke_nationaler_bedeutung", {isBaseLayer: false});
+                m.getMap().addLayers([parks]);
+
+            }
+        });
+        </script>
+    </head>
+    
+    <body>
+        TODO: have content here that describes this example 
+    </body>
+</html>
