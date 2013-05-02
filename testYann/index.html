@@ -1,0 +1,39 @@
+
+<!DOCTYPE HTML>
+<html lang="fr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>GeoAdminMobile: Examples of the Map-class </title>
+
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <link rel="stylesheet" href="./sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="./style.mobile.css" type="text/css">
+        <link rel="stylesheet" href="./style.css" type="text/css">
+        <link rel="stylesheet" href="./gxm.css" type="text/css">
+        <script src="../lib/jquery.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script>
+        <script src="http://mobile.api.geo.admin.ch/loader.js"></script>
+        <script type="text/javascript">
+            $.ajax({
+            url: 'http://router.project-osrm.org/viaroute?z=14&output=json&checksum=1578810642&loc=46.521827,6.632702&loc=46.789801,6.606159&instructions=true',
+                    dataType: 'jsonp',
+                    jsonp: 'jsonp',
+                    success: function callbacks(data) {
+
+                    var encodedPath = data.route_geometry;
+                var polylineDecodee = google.maps.geometry.encoding.decodePath(encodedPath);
+                for (i = 0; i < polylineDecodee.length; i++) {
+                    //limites.extend(polylineDecodee[i]);
+                    alert(polylineDecodee[i]);
+                }
+                //maCarte.fitBounds(limites);
+                
+                    }
+            });
+
+        </script>
+    <body>
+    </body>
+</html>
