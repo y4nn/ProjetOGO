@@ -37,7 +37,7 @@ $(document).ready(function() {
 
     // création des deux couches de saisie des points départ/arrivée
     startPointLayer = new OpenLayers.Layer.Vector("Start Point Layer", {
-        styleMap: myStyles
+        styleMap: myStyles,
     });
     endPointLayer = new OpenLayers.Layer.Vector("End Point Layer", {
         styleMap: myStyles
