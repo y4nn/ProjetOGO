@@ -1,10 +1,9 @@
 // Start with the map page
 window.location.replace(window.location.href.split("#")[0] + "#mappage");
-
+var ol = new OpenLayers.Layer.OSM();
 var selectedFeature = null;
 var from_lonlat;
 var to_lonlat;
-
 // fix height of content
 function fixContentHeight() {
     var footer = $("div[data-role='footer']:visible"),
@@ -275,22 +274,76 @@ function addLayerToList(layer) {
 }
 
 function itineraire() {
+
+    from_lonlat.transform(sm, gg);
+    to_lonlat.transform(sm, gg);
     var polylineDecodee;
+    /* $.ajax({
+     // url: 'http://router.project-osrm.org/viaroute?z=14&output=json&checksum=1578810642&loc='+from_lonlat.lat+','+from_lonlat.lon+'&loc='+to_lonlat.lat+','+to_lonlat.lon+'&instructions=true',
+     url: 'http://router.project-osrm.org/viaroute?z=14&output=json&checksum=1578810642&loc=46.521827,6.632702&loc=46.789801,6.606159&instructions=true',
+     crossDomain: true,
+     dataType: 'jsonp',
+     //jsonpCallback: 'asd',
+     cache: 'jsonp',
+     //dataType: 'jsonp',
+     //jsonp: 'jsonp',
+     success: function callbacks(data) {
+     
+     var encodedPath = data.route_geometry;
+     polylineDecodee = google.maps.geometry.encoding.decodePath(encodedPath);
+     for (i = 0; i < polylineDecodee.length; i++) {
+     alert(polylineDecodee[i]);
+     }
+     
+     }
+     });*/
     $.ajax({
-        // url: 'http://router.project-osrm.org/viaroute?z=14&output=json&checksum=1578810642&loc='+from_lonlat.lat+','+from_lonlat.lon+'&loc='+to_lonlat.lat+','+to_lonlat.lon+'&instructions=true',
-        url: 'http://router.project-osrm.org/viaroute?z=14&output=json&checksum=1578810642&loc=46.521827,6.632702&loc=46.789801,6.606159&instructions=true',
-        dataType: 'jsonp',
-        jsonp: 'jsonp',
-        success: function callbacks(data) {
-
-            var encodedPath = data.route_geometry;
-            polylineDecodee = google.maps.geometry.encoding.decodePath(encodedPath);
-            for (i = 0; i < polylineDecodee.length; i++) {
-                alert(polylineDecodee[i]);
-            }
-
-        }
+        //url: 'http://router.project-osrm.org/viaroute?z=14&output=json&checksum=1578810642&loc=46.521827,6.632702&loc=46.789801,6.606159&instructions=true&jsonp=decodeData',
+        url: 'http://router.project-osrm.org/viaroute?z=14&output=json&checksum=1578810642&loc=' + from_lonlat.lat + ',' + from_lonlat.lon + '&loc=' + to_lonlat.lat + ',' + to_lonlat.lon + '&instructions=true&jsonp=decodeData',
+        dataType: "script",
+        cache: 'jsonp'
     });
+
+
     return polylineDecodee;
+
+}
+
+
+function decodeData(data) {
+    var encodedPath = data.route_geometry;
+    polylineDecodee = google.maps.geometry.encoding.decodePath(encodedPath);
+
+    var point;
+    var pointList = [];
+    var lng, lat;
+    for (var i = 0; i < polylineDecodee.length - 1; i++) {
+        lng = polylineDecodee.kb;
+        lat = polylineDecodee.jb;
+        point = new OpenLayers.Geometry.Point(lng, lat);
+        pointList.push(point);
+    }
+    ligne = new OpenLayers.Geometry.LineString(pointList);
+    ligne.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+
+    defStyle = {strokeColor: "red", strokeOpacity: "1", strokeWidth: 3};
+
+    var lgth = polylineDecodee.length;
+
+    vector = new OpenLayers.Layer.Vector("Route", {
+        style: defStyle
+    });
+
+
+//dessine
+    for (var i = 0; i < polylineDecodee.length - 1; i++) {
+        var start_point = new OpenLayers.Geometry.Point(polylineDecodee[i].kb, polylineDecodee[i].jb);
+        var end_point = new OpenLayers.Geometry.Point(polylineDecodee[i + 1].kb, polylineDecodee[i + 1].jb);
+        if (i + 1 <= lgth) {
+
+            vector.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString([start_point, end_point]).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913")))]);
+            map.addLayers([ol, vector]);
+        }
+    }
 
 }
